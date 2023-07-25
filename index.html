@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <title>Task Tracker | AsmrProg</title>
+</head>
+
+<body>
+
+  <h2>Task Tracker</h2>
+  <div class="container">
+    <div class="box-column">
+      <div class="box-header" id="backlog">
+        <h5>BackLog <span class="num"></span></h5>
+        <li id="add-task"><i class="fa-solid fa-plus"></i></li>
+      </div>
+    </div>
+
+    <div class="box-column">
+      <div class="box-header" id="ready">
+        <h5>Ready <span class="num"></span></h5>
+        <li id="add-task"><i class="fa-solid fa-plus"></i></li>
+      </div>
+    </div>
+
+    <div class="box-column">
+      <div class="box-header" id="doing">
+        <h5>Doing <span class="num"></span></h5>
+        <li id="add-task"><i class="fa-solid fa-plus"></i></li>
+      </div>
+    </div>
+
+    <div class="box-column">
+      <div class="box-header" id="review">
+        <h5>Review <span class="num"></span></h5>
+        <li id="add-task"><i class="fa-solid fa-plus"></i></li>
+      </div>
+    </div>
+
+    <div class="modal-wrapper" id="inp-modal">
+      <div class="modal">
+        <div class="opt-wrapper">
+          <label class="a11y-hidden" for="tag-input">태그 선택</label>
+          <select id="tag-input">
+            <option value="Youtube" selected>Youtube</option>
+            <option value="Dev">Dev</option>
+            <option value="Design">Design</option>
+          </select>
+          <label class="a11y-hidden" for="date-input">날짜 선택</label>
+          <input type="date" id="date-input">
+        </div>
+        <textarea class="txt-input" placeholder="내용을 입력하세요"></textarea>
+        <div class="btn-wrapper">
+          <button class="add-btn">추가</button>
+          <button class="cancel-btn">취소</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-wrapper" id="detail-modal">
+
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+
+</html>
