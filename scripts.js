@@ -82,13 +82,14 @@ const createTask = (tagVal, dateVal, txtVal) => {
   return fragment;
 };
 
-const loadTask = (tagVal, dateVal, txtVal, category) => {
+const loadTask = (tagVal, dateVal, txtVal, category, id) => {
   const box = document.createElement('div');
+  box.id = id;
   box.classList.add('box');
   box.appendChild(createTask(tagVal, dateVal, txtVal));
   box.addEventListener('click', () => {
     detailModal.classList.toggle('active');
-    detailModal.appendChild(taskDetail(tagVal, dateVal, txtVal));
+    detailModal.appendChild(taskDetail(tagVal, dateVal, txtVal, id));
   });
   switch (category) {
     case 'backlog':
@@ -106,15 +107,15 @@ const loadTask = (tagVal, dateVal, txtVal, category) => {
   }
 };
 
-const saveTask = (tagVal, dateVal, txtVal, category) => {
+const saveTask = (tagVal, dateVal, txtVal, category, id) => {
   const task = JSON.parse(localStorage.getItem('task'));
   if (task) {
-    task.push({ tagVal, dateVal, txtVal, category });
+    task.push({ tagVal, dateVal, txtVal, category, id });
     localStorage.setItem('task', JSON.stringify(task));
   } else {
     localStorage.setItem(
       'task',
-      JSON.stringify([{ tagVal, dateVal, txtVal, category }])
+      JSON.stringify([{ tagVal, dateVal, txtVal, category, id }])
     );
   }
 };
@@ -133,12 +134,13 @@ const addTaskFunc = (e) => {
   const tagVal = tagInput.value;
   const dateVal = dateFunc(dateInput.value);
   const txtVal = txtInput.value;
+  const id = JSON.parse(localStorage.getItem('task')).length;
 
   if (tagVal === '' || dateVal === '' || txtVal === '') {
     return alert('Please fill all the fields');
   } else {
-    loadTask(tagVal, dateVal, txtVal, category);
-    saveTask(tagVal, dateVal, txtVal, category);
+    loadTask(tagVal, dateVal, txtVal, category, id);
+    saveTask(tagVal, dateVal, txtVal, category, id);
   }
 
   setCount();
@@ -148,14 +150,28 @@ const addTaskFunc = (e) => {
   inpModal.classList.toggle('active');
 };
 
+const deleteTask = (id) => {
+  confirm('정말 삭제하시겠습니까?');
+  if (!confirm) return;
+  const task = JSON.parse(localStorage.getItem('task'));
+  const newTask = task.filter((item) => item.id !== id);
+  localStorage.setItem('task', JSON.stringify(newTask));
+  detailModal.classList.toggle('active');
+  detailModal.removeChild(detailModal.childNodes[0]);
+  alert('삭제되었습니다.');
+  location.reload();
+};
+
 const onLoad = () => {
   const task = JSON.parse(localStorage.getItem('task'));
+  !task ? localStorage.setItem('task', JSON.stringify([])) : task;
   if (task) {
     task.forEach((item) => {
-      loadTask(item.tagVal, item.dateVal, item.txtVal, item.category);
+      loadTask(item.tagVal, item.dateVal, item.txtVal, item.category, item.id);
     });
+
+    setCount();
   }
-  setCount();
 };
 
 onLoad();
@@ -169,11 +185,21 @@ addBtn.addEventListener('click', (e) => {
   addTaskFunc(e);
 });
 
-const taskDetail = (tagVal, dateVal, txtVal) => {
+const taskDetail = (tagVal, dateVal, txtVal, id) => {
   const detail = document.createElement('div');
   detail.classList.add('modal', 'detail');
 
   detail.appendChild(createTask(tagVal, dateVal, txtVal));
+
+  const deleteBtn = document.createElement('button');
+  deleteBtn.classList.add('delete-btn');
+  deleteBtn.textContent = '삭제';
+
+  deleteBtn.addEventListener('click', () => {
+    deleteTask(id);
+  });
+
+  detail.appendChild(deleteBtn);
 
   const btn = document.createElement('span');
   const closeI = document.createElement('i');
@@ -189,3 +215,5 @@ const taskDetail = (tagVal, dateVal, txtVal) => {
 
   return detail;
 };
+
+onLoad();

@@ -229,3 +229,18 @@ body h2 {
   cursor: pointer;
   padding: 2px;
 }
+
+.modal.detail .delete-btn {
+  border-radius: 5px;
+  cursor: pointer;
+  width: 50px;
+  align-self: center;
+  border: 1px solid #eee;
+  padding: 5px 10px;
+  background-color: #f44336;
+  color: #fff;
+}
+
+.modal.detail .delete-btn:hover {
+  background-color: #d84d43;
+}
