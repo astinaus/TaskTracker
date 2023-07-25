@@ -215,5 +215,3 @@ const taskDetail = (tagVal, dateVal, txtVal, id) => {
 
   return detail;
 };
-
-onLoad();
